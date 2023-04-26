@@ -1,0 +1,13 @@
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3rem; /* Hauteur du footer */
+}
+
+.wrapper {
+  min-height: 100%;
+  padding-bottom: 10em; /* Hauteur du footer */
+  box-sizing: border-box; /* Permet de prendre en compte le padding dans le calcul de la hauteur */
+}

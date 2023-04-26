@@ -1,0 +1,19 @@
+.nav-link:hover, .nav-link.active{
+  background: #303030;
+  color:whitesmoke;
+}
+
+@media (max-width: 991px) {
+  .center-nav {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .navbar-nav {
+    flex-direction: column !important;
+  }
+  .nav-link {
+    margin-top: 0.5em;
+    text-align: center !important;
+  }
+}

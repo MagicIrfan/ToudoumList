@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="dark card ms-auto me-auto my-auto">
+    <div class="card-header text-center">
+      <div class="clearfix">
+        <button class="btn btn-danger" (click)="onCreateTask()"><i class="fa-solid fa-plus fa-2xl"></i></button>
+      </div>
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link text-decoration-none active" href="#unfinished" data-bs-toggle="tab">Non Complétés</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-decoration-none" href="#finished" data-bs-toggle="tab">Complétés</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <div class="tab-pane show active" id="unfinished">
+          <app-task-list [finished]="false"></app-task-list>
+        </div>
+        <div class="tab-pane show" id="finished">
+          <app-task-list [finished]="true"></app-task-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

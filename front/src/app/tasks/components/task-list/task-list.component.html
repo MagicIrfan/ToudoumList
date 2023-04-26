@@ -1,0 +1,5 @@
+<ul class="list-group list-group-flush">
+    <ng-container *ngFor="let task of tasks">
+      <app-task [task]="task" *ngIf="task.finished == finished"></app-task>
+    </ng-container>
+</ul>
