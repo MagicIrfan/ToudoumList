@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const taskRoutes = require('./routes/task');
-const userRoutes = require('./routes/user');
+const authRoutes = require('./routes/auth');
+const usersRoutes = require('./routes/user');
 const path = require('path');
 
 const app = express();
@@ -11,7 +12,6 @@ mongoose.connect('mongodb+srv://MagicIrfan:irfan13300@cluster0.hli8naq.mongodb.n
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
-
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/tasks', taskRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
 
 module.exports = app;

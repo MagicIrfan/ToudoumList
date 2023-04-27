@@ -5,6 +5,8 @@ import {map, Observable} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TaskService} from "../../../core/services/task.service";
 import {LocalService} from "../../../core/services/local.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Message} from "../../../core/models/message.model";
 
 @Component({
   selector: 'app-add-task',
@@ -40,17 +42,24 @@ export class AddTaskComponent {
   }
   onAddTask():void{
     const formValue = this.editTaskForm!.value;
-    const id : number = this.taskService.getLastId();
     const userId : number = +this.localService.getData("id");
     const newTask : Task = new Task(
-      id,
+      0,
       userId,
       formValue['name'],
       formValue['description'],
       false,
     );
-    this.taskService.addTask(newTask);
-    this.router.navigateByUrl("");
+    this.taskService.addTask(newTask).subscribe(
+      (message : Message) : void =>{
+        if(message.response === "OK"){
+          this.router.navigateByUrl("");
+        }
+      },
+      (error: HttpErrorResponse) : void => {
+        console.log(error);
+      }
+    );
   }
 
   onReturn() : void {

@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Task} from "../../../core/models/task.model";
 import {TaskService} from "../../../core/services/task.service";
-import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
-import {bootstrapApplication} from "@angular/platform-browser";
+import {Message} from "../../../core/models/message.model";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-task',
@@ -12,10 +12,17 @@ import {bootstrapApplication} from "@angular/platform-browser";
 })
 export class TaskComponent {
   @Input() task!: Task;
-
+  @Output() taskUpdated: EventEmitter<Message> = new EventEmitter<Message>();
   constructor(private taskService: TaskService,private router : Router) {}
   onDeleteTask(taskId:number) : void {
-    this.taskService.deleteTask(taskId);
+    this.taskService.deleteTask(taskId).subscribe(
+      (message:Message) : void => {
+        this.taskUpdated.emit(message);
+      },
+      (error : HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
   }
   onEditTask(taskId:number) : void {
     this.router.navigateByUrl(`edit-task/${taskId}`);
@@ -25,10 +32,17 @@ export class TaskComponent {
     this.router.navigateByUrl(`task/${taskId}`);
   }
 
-  onCheckTask(id: number,checkInput: HTMLElement) {
+  onCheckTask(task : Task,checkInput: HTMLElement) {
     const isFinished: boolean = (<HTMLInputElement>checkInput).checked;
     setTimeout(() : void => {
-      this.taskService.setFinishTask(id, isFinished);
+      this.taskService.setFinishTask(task, isFinished).subscribe(
+        (message:Message) : void => {
+          this.taskUpdated.emit(message);
+        },
+        (error : HttpErrorResponse) => {
+          console.log(error);
+        }
+      );
     },1000);
   }
 }

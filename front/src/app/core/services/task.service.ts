@@ -1,68 +1,44 @@
 import {Injectable} from "@angular/core";
 import {Task} from "../models/task.model";
+import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {ServerUtils} from "../utils/serverUtils";
+import {LocalService} from "./local.service";
+import {AuthService} from "./auth.service";
+import {Message} from "../models/message.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  private tasks!: Task[];
+  constructor(private httpClient: HttpClient)
+  {}
 
-  constructor() {
-    this.tasks = [
-      {
-        id:0,
-        userId:0,
-        name:"T'as les cramptés ?",
-        description:"Apanyan",
-        finished:false
-      }
-    ]
+  getAllTasks(finished: boolean): Observable<Task[]> {
+    const url: string = `${ServerUtils.url}/api/tasks`;
+    const params : {finished : string} = { finished: finished.toString() };
+    return this.httpClient.get<Task[]>(url, { params });
   }
 
-  getAllTasks(): Task[] {
-    return this.tasks;
+  getTaskById(id:number): Observable<Task>{
+    return this.httpClient.get<Task>(`${ServerUtils.url}/api/tasks/${id}`);
   }
 
-  getTaskById(id:number): Task{
-    return this.tasks.find((task: Task) => task.id === id) as Task;
+  addTask(newTask: Task):Observable<Message>{
+    return this.httpClient.post<Message>(`${ServerUtils.url}/api/tasks`,newTask);
   }
 
-  getLastId():number{
-    if (this.tasks.length === 0) {
-      return 0;
-    }
-    const maxId : number = this.tasks.reduce((max : number, task :Task) => Math.max(max, task.id), 0);
-    return maxId + 1;
+  editTask(task: Task):Observable<Message>{
+    return this.httpClient.put<Message>(`${ServerUtils.url}/api/tasks/${task.id}`,task);
   }
 
-  addTask(newTask: Task):void{
-    this.tasks.push(newTask);
+  setFinishTask(task:Task,isFinished:boolean):Observable<Message>{
+    task.finished = isFinished;
+    return this.editTask(task);
   }
 
-  editTask(task: Task):void{
-    const index : number = this.getIndexById(task.id);
-    if (index > -1)
-      this.tasks[index] = task;
-  }
-
-  setFinishTask(id:number,isFinished:boolean):void{
-    const index : number = this.getIndexById(id);
-    if (index > -1)
-      this.tasks[index].finished = isFinished;
-  }
-
-  deleteTask(id:number) : void{
-    const index : number = this.getIndexById(id);
-    if (index > -1) {
-      this.tasks.splice(index, 1);
-    }
-  }
-
-  getIndexById(id:number):number{
-    return this.tasks.indexOf(this.getTaskById(id));
-  }
-  getTasksByUserId(userId: number): Task[] {
-    return this.tasks.filter((task: Task): boolean => task.userId === userId);
+  deleteTask(id:number) : Observable<Message>{
+    return this.httpClient.delete<Message>(`${ServerUtils.url}/api/tasks/${id}`);
   }
 }

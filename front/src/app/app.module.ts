@@ -1,10 +1,12 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {TasksModule} from "./tasks/tasks.module";
 import {CoreModule} from "./core/core.module";
+import {HttpClientModule} from "@angular/common/http";
+import {httpInterceptorProviders} from "./core/interceptors";
 
 
 @NgModule({
@@ -14,10 +16,13 @@ import {CoreModule} from "./core/core.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     TasksModule,
     CoreModule
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

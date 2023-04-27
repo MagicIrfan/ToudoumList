@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../../core/services/auth.service";
-import {UsersService} from "../../../core/services/user.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../../core/models/user.model";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Message} from "../../../core/models/message.model";
 
 @Component({
   selector: 'app-inscription',
@@ -18,7 +19,7 @@ export class InscriptionComponent implements OnInit {
   usernameControl!:FormControl;
   errors!:string;
 
-  constructor(private authService: AuthService, private userService: UsersService, private router : Router, private formBuilder: FormBuilder) { }
+  constructor(private authService: AuthService, private router : Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.emailControl = new FormControl('', [
@@ -51,17 +52,22 @@ export class InscriptionComponent implements OnInit {
     const email : string = formValue['email'];
     const username : string = formValue['name'];
     const password : string = formValue['password'];
-    console.log(formValue);
-    console.log(this.userService.isUserExists2(email,username));
-    if(!this.userService.isUserExists2(email,username)){
-      const newUser : User = new User(this.userService.getLastId(),username,email,password);
-      this.userService.addUser(newUser);
-      console.log(this.userService.getAllUsers());
-      this.router.navigateByUrl("/auth/connexion");
-    }
-    else{
-      this.errors = "L'email ou le nom d'utilisateur existe déjà !";
-      this.router.navigateByUrl("/auth/inscription");
-    }
+    const user : User = new User(
+      0,
+      username,
+      email,
+      password
+    );
+    this.authService.signup(user).subscribe(
+      (message: Message) : void =>{
+        if(message.response == 'OK'){
+          this.router.navigateByUrl("/");
+        }
+      },
+      (errorResponse: HttpErrorResponse) : void => {
+        this.errors = errorResponse.error.response;
+        this.router.navigateByUrl("/auth/inscription");
+      }
+    );
   }
 }

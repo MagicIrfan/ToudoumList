@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="edit-task border-2 mx-auto text-light border-2 rounded-3 p-4">
+  <div class="edit-task border-2 mx-auto text-light border-2 rounded-3 p-4" *ngIf="taskToEdit">
     <form [formGroup]="editTaskForm">
       <div class="form-floating mb-3">
         <input type="text" class="form-control text-white" id="task-name" [formControl]="nameControl" required>
@@ -8,10 +8,6 @@
       <div class="form-floating mb-3">
         <textarea class="form-control" id="task-description" [formControl]="descriptionControl" required></textarea>
         <label for="task-description">Description</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="time" class="form-control" id="task-date">
-        <label for="task-date">Date de fin</label>
       </div>
       <div class="clearfix">
         <div class="float-start">

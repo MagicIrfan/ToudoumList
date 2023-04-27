@@ -5,6 +5,10 @@ import {UsersService} from "../../../core/services/user.service";
 import {AuthService} from "../../../core/services/auth.service";
 import {LocalService} from "../../../core/services/local.service";
 import {User} from "../../../core/models/user.model";
+import {LoginResponse} from "../../../core/models/loginresponse.model";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Task} from "../../../core/models/task.model";
+import {Message} from "../../../core/models/message.model";
 @Component({
   selector: 'app-connection',
   templateUrl: './connection.component.html',
@@ -45,18 +49,27 @@ export class ConnectionComponent implements OnInit {
       const formValue = this.connectionForm!.value;
       const email : string = formValue['email'];
       const password : string = formValue['password'];
-      console.log(formValue);
-      console.log(this.userService.getAllUsers());
-      if(this.userService.isUserExists(email,password)){
-        this.authService.login();
-        const user: User = this.userService.getUserByEmailAndPassword(email,password);
-        this.localService.saveData("id",user.id.toString());
-        this.router.navigateByUrl("/");
-      }
-      else{
-        this.errors = "Email ou mot de passe incorrect !";
-        this.router.navigateByUrl("/auth/connexion");
-      }
-
+      this.userService.getUserByEmailAndPassword(email,password).subscribe(
+        (user : User) : void => {
+          if(user){
+            user.password = password;
+            this.authService.login(user).subscribe(
+              (response : LoginResponse) =>{
+                this.authService.setToken(response.token);
+                this.localService.saveData("id",response.userId);
+                this.localService.saveData("token",response.token);
+                console.log(this.localService.getData("id"));
+                this.router.navigateByUrl("/");
+              },
+              (error: HttpErrorResponse): void => {
+                this.errors = error.error.response;
+                this.router.navigateByUrl("/auth/connexion");
+              }
+            );
+          }
+        },
+        (errorResponse: HttpErrorResponse) : void => {
+          this.errors = errorResponse.error.response;
+        });
   }
 }

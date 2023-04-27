@@ -11,14 +11,17 @@
             <div class="form-floating mb-3">
               <input type="text" class="form-control" id="username" [formControl]="usernameControl" required>
               <label for="username">Nom d'utilisateur</label>
+              <p class="text-danger text-small mt-2" *ngIf="usernameControl.errors?.['minlength']">Veuillez saisir pseudo de plus de {{usernameControl.errors?.['minlength']?.requiredLength-1}} caractères.</p>
             </div>
             <div class="form-floating mb-3">
               <input type="email" class="form-control" id="email" [formControl]="emailControl" required>
               <label for="email">Adresse email</label>
+              <p class="text-danger text-small mt-2" *ngIf="emailControl.errors?.['email']">Veuillez saisir un email valide.</p>
             </div>
             <div class="form-floating mb-3">
               <input type="password" class="form-control" id="password" [formControl]="passwordControl" required>
               <label for="password">Mot de passe</label>
+              <p class="text-danger text-small mt-2" *ngIf="passwordControl.errors?.['minlength']">Veuillez saisir un mot de passe de plus de {{passwordControl.errors?.['minlength']?.requiredLength-1}} caractères.</p>
             </div>
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-dark" [disabled]="inscriptionForm.invalid">S'inscrire</button>

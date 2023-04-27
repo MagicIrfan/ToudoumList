@@ -4,6 +4,7 @@ import { MainPageComponent } from './components/main-page/main-page.component';
 import {TasksModule} from "../tasks/tasks.module";
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -15,6 +16,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   imports: [
     CommonModule,
     TasksModule,
+    HttpClientModule,
     NgOptimizedImage,
     RouterLink,
     RouterLinkActive

@@ -16,10 +16,10 @@
     <div class="card-body">
       <div class="tab-content">
         <div class="tab-pane show active" id="unfinished">
-          <app-task-list [finished]="false"></app-task-list>
+          <app-task-list [tasks]="this.tasksUnfinished" (taskUpdated)="onTaskUpdated($event)"></app-task-list>
         </div>
         <div class="tab-pane show" id="finished">
-          <app-task-list [finished]="true"></app-task-list>
+          <app-task-list [tasks]="this.tasksFinished" (taskUpdated)="onTaskUpdated($event)"></app-task-list>
         </div>
       </div>
     </div>

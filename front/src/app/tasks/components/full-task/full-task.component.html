@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="card mx-auto dark text-light">
+  <div class="card mx-auto dark text-light" *ngIf="task">
     <div class="card-header pt-3">
       <h5 class="card-title text-center">{{task.name}}</h5>
     </div>
@@ -9,7 +9,7 @@
     <div class="card-footer">
       <div class="d-flex justify-content-center">
         <button (click)="onReturn()" class="btn btn-info me-1"><i class="fa-solid fa-arrow-rotate-left fa-lg"></i></button>
-        <button *ngIf="!task.finished" (click)="onFinishTask(task.id)" class="btn btn-success me-1"><i class="fa-solid fa-check fa-lg"></i></button>
+        <button *ngIf="!task.finished" (click)="onFinishTask(task)" class="btn btn-success me-1"><i class="fa-solid fa-check fa-lg"></i></button>
         <button (click)="onEditTask(task.id)" class="btn btn-primary me-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></button>
         <button (click)="onDeleteTask(task.id)" class="btn btn-danger"><i class="fa-solid fa-trash fa-lg"></i></button>
       </div>
