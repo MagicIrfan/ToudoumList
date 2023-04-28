@@ -7,9 +7,7 @@ const path = require('path');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://MagicIrfan:irfan13300@cluster0.hli8naq.mongodb.net/?retryWrites=true&w=majority',
-    { useNewUrlParser: true,
-        useUnifiedTopology: true })
+mongoose.connect('mongodb://127.0.0.1:27017')
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 app.use(express.json());
