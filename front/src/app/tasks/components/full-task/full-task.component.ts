@@ -17,7 +17,12 @@ export class FullTaskComponent {
   constructor(private router:Router, private formBuilder: FormBuilder, private taskService:TaskService, private route:ActivatedRoute) {
     const id: number = +this.route.snapshot.params['id'];
     this.taskService.getTaskById(id).subscribe((task : Task) => {
-      this.task = task;
+      if(task){
+        this.task = task;
+      }
+      else{
+        this.router.navigateByUrl("**");
+      }
     });
   }
   ngOnInit():void {}

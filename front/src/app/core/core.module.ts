@@ -5,6 +5,7 @@ import {TasksModule} from "../tasks/tasks.module";
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
+import { FourOhFourComponent } from './components/four-oh-four/four-oh-four.component';
 
 
 
@@ -12,6 +13,7 @@ import {HttpClientModule} from "@angular/common/http";
   declarations: [
     MainPageComponent,
     NavigationComponent,
+    FourOhFourComponent,
   ],
   imports: [
     CommonModule,

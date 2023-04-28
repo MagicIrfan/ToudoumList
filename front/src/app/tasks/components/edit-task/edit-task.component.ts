@@ -25,6 +25,9 @@ export class EditTaskComponent {
 
   ngOnInit() {
     const id: number = +this.route.snapshot.params['id'];
+    if(!id){
+      this.router.navigateByUrl("**");
+    }
     this.taskService.getTaskById(id).subscribe((task: Task) => {
       this.taskToEdit = task;
       this.nameControl = new FormControl(this.taskToEdit.name, Validators.required);
