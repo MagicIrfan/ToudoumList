@@ -21,7 +21,7 @@ export class FullTaskComponent {
         this.task = task;
       }
       else{
-        this.router.navigateByUrl("**");
+        this.router.navigateByUrl("/not-found");
       }
     });
   }
