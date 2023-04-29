@@ -18,7 +18,7 @@
               <label for="password">Mot de passe</label>
               <p class="text-danger text-small mt-2" *ngIf="passwordControl.errors?.['minlength']">Veuillez saisir un mot de passe de plus de {{passwordControl.errors?.['minlength']?.requiredLength-1}} caractères.</p>
             </div>
-            <div class="d-grid gap-2">
+            <div class="d-grid">
               <button type="submit" class="btn btn-dark" [disabled]="connectionForm.invalid">Se connecter</button>
             </div>
           </form>
